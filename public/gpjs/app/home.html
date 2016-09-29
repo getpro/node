@@ -1,0 +1,151 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-4">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="s1" class="col-sm-3 control-label">请选择产品：</label>
+                            <div class="col-lg-9">
+                                <select id="s1" class="form-control col-lg-3"
+                                        ng-options="option.name for option in product" ng-model="op"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s5" class="col-sm-3 control-label">购买价位：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="s5" ng-model="mprice" type="number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s9" class="col-sm-3 control-label">卖出价位：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="s9" ng-model="sale" type="number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s2" class="col-sm-3 control-label">请输入购买数量：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="s2" ng-model="hand" type="number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s3" class="col-sm-3 control-label">点差：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="dc" ng-disabled="true" id="s3" placeholder="点差">
+                                <span>{{hand}}x{{op.hand}}x{{op.dc}}={{dc+'元'}}</span><br/>
+                                <span>——公式：购买数量*单位数量*点差</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s4" class="col-sm-3 control-label">手续费：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="sxf" ng-disabled="true" id="s4" placeholder="手续费">
+                                <span>{{hand}}x{{op.sxf}}={{sxf+'元'}}</span><br/>
+                                <span>——公式：购买数量*手续费</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s6" class="col-sm-3 control-label">保证金：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="bzj" ng-disabled="true" id="s6" placeholder="保证金">
+                                <span ng-show="op.bzj<1">{{mprice}}x{{hand}}x{{op.hand}}x{{op.bzj}}={{bzj+'元'}}</span>
+                                <span ng-show="op.bzj>1">{{hand}}x{{op.bzj}}={{bzj+'元'}}</span><br/>
+                                <span ng-show="op.bzj<1">——公式：购买价格*购买数量*单位数量*保证金</span>
+                                <span ng-show="op.bzj>1">——公式：购买数量*保证金</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s11" class="col-sm-3 control-label">过夜费：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="gyf" ng-disabled="true" id="s11" placeholder="过夜费">
+                                <span ng-show="op.gyf<1">{{mprice}}x{{hand}}x{{op.hand}}x{{op.gyf}}={{gyf+'元'}}</span>
+                                <span ng-show="op.gyf>1">{{hand}}x{{op.gyf}}={{gyf+'元'}}</span><br/>
+                                <span ng-show="op.gyf<1">——公式：购买价格*购买数量*单位数量*过夜费</span>
+                                <span ng-show="op.gyf>1">——公式：购买数量*过夜费</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s7" class="col-sm-3 control-label">获利(毛利润)：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="ml" ng-disabled="true" id="s7" placeholder="毛利润">
+                                <span>({{mprice}}-{{sale}})x{{hand}}x{{op.hand}}={{ml+'元'}}</span><br/>
+                                <span>——公式：(买入价格-卖出价格)*买入数量*单位数量</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="s10" class="col-sm-3 control-label">净利润：</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" ng-model="jlr" ng-disabled="true" id="s10" placeholder="净利润">
+                                <span>{{ml}}-({{sale}}+{{sxf}})={{jlr+'元'}}</span><br/>
+                                <span>——公式：毛利润-(点差+手续费)</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-8">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>产品名称</th>
+                            <th>代码</th>
+                            <th>交易单位</th>
+                            <th>单位数量</th>
+                            <th>报价单位</th>
+                            <th>点差</th>
+                            <th>保证金</th>
+                            <th>手续费</th>
+                            <th>多少个点回本</th>
+                            <th>过夜费</th>
+                            <th>风控线</th>
+                            <th>止损跨度</th>
+                            <th>单笔最大下单</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="text" class="col-lg-12 form-control" ng-model="add.name"></td>
+                            <td><input type="text" class="col-lg-12 form-control" ng-model="add.code"></td>
+                            <td><input type="text" class="col-lg-12 form-control" ng-model="add.unit"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.hand"></td>
+                            <td><input type="text"  class="col-lg-12 form-control" ng-model="add.bjdw"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.dc"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.bzj"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.sxf"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.hb"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.gyf"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.fkx"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.zskd"></td>
+                            <td><input type="number" class="col-lg-12 form-control" ng-model="add.max"></td>
+                            <td><button class="btn btn-success" ng-click="save()">添加</button></td>
+                        </tr>
+                        <tr ng-repeat="d in product" ng-class="{'success':d.name==op.name}">
+                            <td ng-bind="d.name"></td>
+                            <td ng-bind="d.code"></td>
+                            <td ng-bind="d.unit"></td>
+                            <td ng-bind="d.hand+d.unit"></td>
+                            <td ng-bind="d.bjdw"></td>
+                            <td ng-bind="d.dc+'元'"></td>
+                            <td>
+                                <span ng-show="d.bzj<1" ng-bind="d.bzj*100+'%'"></span>
+                                <span ng-show="d.bzj>1" ng-bind="d.bzj"></span>
+                            </td>
+                            <td ng-bind="d.sxf+'元'"></td>
+                            <td ng-bind="d.hb"></td>
+                            <td>
+                                <span ng-show="d.gyf<1" ng-bind="d.gyf*100+'%'"></span>
+                                <span ng-show="d.gyf>1" ng-bind="d.gyf"></span>
+                            </td>
+                            <td ng-bind="d.fkx*100+'%'"></td>
+                            <td ng-bind="d.zskd"></td>
+                            <td ng-bind="d.max"></td>
+                            <td><button class="btn btn-danger" ng-click="remove($index,d)">删除</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
